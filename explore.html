@@ -2,7 +2,7 @@
 <html class="wide wow-animation" lang="en"> 
   <head>
     <!-- Site Title-->
-    <title>Welcome to the Demo NFT API site : </title>
+    <title>Explore Smart Contract : </title>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 		crossorigin="anonymous"></script>
@@ -31,9 +31,131 @@
     <div style="background: #212121; padding: 10px 0; box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3); clear: both; text-align:center; position: relative; z-index:1;"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
     <script src="js/html5shiv.min.js"> </script>
 		<![endif]--> 
+    <style>
+      
+      .networkOptions-section{
+        background-color: orange;
+        color:#fff;
+        text-align: center;
+      }
+
+      /*the container must be positioned relative:*/
+      .custom-select {
+        position: relative;
+        font-family: Arial;
+      }
+      
+      .custom-select select {
+        display: none; /*hide original SELECT element:*/
+      }
+      
+      .select-selected {
+        background-color: DodgerBlue;
+      }
+      
+      /*style the arrow inside the select element:*/
+      .select-selected:after {
+        position: absolute;
+        content: "";
+        top: 14px;
+        right: 10px;
+        width: 0;
+        height: 0;
+        border: 6px solid transparent;
+        border-color: #fff transparent transparent transparent;
+      }
+      
+      /*point the arrow upwards when the select box is open (active):*/
+      .select-selected.select-arrow-active:after {
+        border-color: transparent transparent #fff transparent;
+        top: 7px;
+      }
+      
+      /*style the items (options), including the selected item:*/
+      .select-items div,.select-selected {
+        color: #ffffff;
+        padding: 8px 16px;
+        border: 1px solid transparent;
+        border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+        cursor: pointer;
+        user-select: none;
+      }
+      
+      /*style items (options):*/
+      .select-items {
+        position: absolute;
+        background-color: DodgerBlue;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 99;
+      }
+      
+      /*hide the items when the select box is closed:*/
+      .select-hide {
+        display: none;
+      }
+      
+      .select-items div:hover, .same-as-selected {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+      </style>
   </head>
   <body>
-	  
+
+<script>
+        function SendOurRequest() {
+	var select = document.getElementById('networkOptions');
+	var selectedChain = select.options[select.selectedIndex].value;
+
+            console.log("Selected network: " + selectedChain);
+            if (selectedChain != "eth" && selectedChain != "rinkeby") {
+                alert("Kindly select a valid chain");
+                return;
+            }
+            var contractAddress = document.getElementById("contractAddress").value;
+            if (contractAddress == "") {
+                alert("Kindly enter a valid owner address");
+                return;
+            }
+
+            console.log("Selected Address: " + contractAddress);
+            var url = "https://deep-index.moralis.io/api/v2/" +
+                contractAddress
+                + "/nft?chain=" +
+                selectedChain + "&format=decimal&limit=0";
+
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+
+            xhr.setRequestHeader("accept", "application/json");
+            xhr.setRequestHeader("X-API-Key", "ln1zhc654Zogksf3kGog6Utj63TtLtngv5yKzqi53xt8mckxzrj3u5VDqTlP2QJV");
+
+            document.getElementById('FetchedImage').style.display = "none";
+            document.getElementById('ImgLoader').style.display = "block";
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    try {
+                        console.log(xhr.status);
+                        console.log(xhr.responseText);
+                        var mainObj = JSON.parse(xhr.responseText);
+                        var imgParent = JSON.parse(mainObj.result[0].metadata);
+                        var imageURL = imgParent.image;
+                        document.getElementById('FetchedImage').src = imageURL;
+                        document.getElementById('FetchedImage').style.display = "block";
+                        console.log("Image URL: " + imageURL);
+                    } catch {
+                        alert("An error has occured. Either the address is incorrect Or there is no NFT Linked to this address!!!");
+                    }
+                    document.getElementById('ImgLoader').style.display = "none";
+                }
+            };
+
+            xhr.send();
+        }
+    </script>
+
+
     <!-- Page preloader-->
     <div class="page-loader"> 
       <div class="page-loader-body"> 
@@ -109,7 +231,7 @@
                   <ul class="rd-navbar-nav">
                     <li class="active"><a href="index.html">Home</a>
                     </li>
-					  <li class="active"><a href="explore.html">Explore NFT</a>
+					  <li class="active"><a href="#">Explore NFT</a>
                     </li>
 					  <li class="active"><a href="#">Create NFT</a>
                     </li>
@@ -159,9 +281,8 @@
                   <div class="container container-bigger swiper-main-section">
                     <div class="row row-fix justify-content-sm-center justify-content-md-start">
                       <div class="col-md-6 col-lg-5 col-xl-4 col-xxl-5">
-                        <h3>The Trip of Your Dream</h3>
-                        <div class="divider divider-decorate"></div>
-                        <p class="text-spacing-sm">Our travel agency is ready to offer you an exciting vacation that is designed to fit your own needs and wishes. Whether it’s an exotic cruise or a trip to your favorite resort, you will surely have the best experience.</p><a class="button button-default-outline button-nina button-sm" href="#">learn more</a>
+				<img alt="No image found" id="FetchedImage" class="img-fluid">
+           			<div id ="ImgLoader"class="loader"></div>
                       </div>
                     </div>
                   </div>
@@ -196,7 +317,19 @@
             <div class="row row-fix justify-content-sm-center justify-content-lg-end">
               <div class="col-lg-6 col-xxl-5">
                 <div class="form-request form-request-modern bg-gray-lighter novi-background">
-                  <h4>Page Title </h4>
+
+                <div class = "networkOptions-secton">
+                  <select id = "networkOptions" class = "networkOptions-section">
+    			              <option value="" disabled selected>Select a network</option>
+			                  <option value = 'eth';">Ethereum Mainnet</option>
+		                  	<option value = 'rinkeby';">Rinkeby Test Network</option>
+			                  <option value = 'NULL';">Coming soon</option>
+		              </select>
+                </div>
+		<input class="form-control" style="height: 2.5rem; margin: 10px;" id="contractAddress" 
+			placeholder="e.g. 0xbd4a128fe8ec3d7417e4af2824abe4860b74fea0" onchange="SendOurRequest()">
+
+		<button class="btn btn-primary btn-lg btn-block" onclick="SendOurRequest()">Submit</button>	
 					
                   <!-- Page Body Start Here -->
 				  <!-- End  Body Start Here -->
@@ -205,6 +338,7 @@
             </div>
           </div>
         </div>
+        
       </section>
 
 
@@ -288,5 +422,9 @@
 		});
 	</script>
     <!-- coded by barber-->
+        <script>
+            document.getElementById('FetchedImage').style.display = "none";
+            document.getElementById('ImgLoader').style.display = "none";
+        </script>
   </body>
 </html>

@@ -44,7 +44,7 @@
                     } catch {
                         alert("An error has occured. Either the address is incorrect Or there is no NFT Linked to this address!!!");
                     }
-                    document.getElementById('ImgLoader').style.display = "none";
+                    imgLoaderElement.style.display = "none";
                 }
             };
 
