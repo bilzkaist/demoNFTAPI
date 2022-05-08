@@ -84,10 +84,8 @@
               </div>
           </div>
       </div>
-      <!-- Page-->
 
       <div class="page">
-          <a class="section section-banner text-center d-none d-md-block d-xl-block" href="https://www.templatemonster.com/intense-multipurpose-html-template.html" style="background-image: url(images/banner/background-04-1920x60.jpg); background-image: -webkit-image-set( url(images/banner/background-04-1920x60.jpg) 1x, url(images/banner/background-04-3840x120.jpg) 2x )"><img src="images/banner/foreground.png" srcset="images/banner/foreground.png 1x, images/banner/foreground.png 2x" alt="" width="1600" height="310"></a>
           <!-- Page Header-->
           <div html-file-name="navbar.html"></div>
 
@@ -163,25 +161,9 @@
               </div>
           </section>
           <!-- Footer Minimal-->
-          <footer class="section page-footer page-footer-minimal novi-background bg-cover text-center bg-gray-darker">
-              <div class="container container-wide">
-                  <div class="row row-fix justify-content-sm-center align-items-md-center row-30">
-                      <div class="col-md-10 col-lg-7 col-xl-4 text-xl-left"><a href="index.html"><img class="inverse-logo" src="images/bilalsbslogo.png" alt="" width="208" height="46" /></a></div>
-                      <div class="col-md-10 col-lg-7 col-xl-4">
-                          <p class="right">&#169;&nbsp;<span class="copyright-year"></span> All Rights Reserved. Development&nbsp;by&nbsp;<a href="https://bilal.sbs">Bilal Smart Blockchain Solutions</a></p>
-                      </div>
-                      <div class="col-md-10 col-lg-7 col-xl-4 text-xl-right">
-                          <ul class="group-xs group-middle">
-                              <li><a class="icon novi-icon icon-md-middle icon-circle icon-secondary-5-filled mdi mdi-facebook" href="#"></a></li>
-                              <li><a class="icon novi-icon icon-md-middle icon-circle icon-secondary-5-filled mdi mdi-twitter" href="#"></a></li>
-                              <li><a class="icon novi-icon icon-md-middle icon-circle icon-secondary-5-filled mdi mdi-instagram" href="#"></a></li>
-                              <li><a class="icon novi-icon icon-md-middle icon-circle icon-secondary-5-filled mdi mdi-google" href="#"></a></li>
-                              <li><a class="icon novi-icon icon-md-middle icon-circle icon-secondary-5-filled mdi mdi-linkedin" href="#"></a></li>
-                          </ul>
-                      </div>
-                  </div>
-              </div>
-          </footer>
+
+          <div html-file-name="footer.html"></div>
+
       </div>
       <!-- Global Mailform Output-->
       <div class="snackbars" id="form-output-global"> </div>
@@ -233,43 +215,7 @@
           });
       </script>
 
-      <script>
-
-          function includeExternalHTMLs() {
-              console.log('Including  external htmls')
-              var z, i, elmnt, file, xhttp;
-              /* Loop through a collection of all HTML elements: */
-              z = document.getElementsByTagName("*");
-              for (i = 0; i < z.length; i++) {
-                  elmnt = z[i];
-                  /*search for elements with a certain atrribute:*/
-                  file = elmnt.getAttribute("html-file-name");
-
-                  if (file) {
-                      console.log("includeExternalHTMLs: " + file);
-                      /* Make an HTTP request using the attribute value as the file name: */
-                      xhttp = new XMLHttpRequest();
-                      xhttp.onreadystatechange = function () {
-                          if (this.readyState == 4) {
-                              if (this.status == 200) {
-                                  elmnt.innerHTML = this.responseText;
-                              }
-                              if (this.status == 404) { elmnt.innerHTML = "Page not found."; }
-                              /* Remove the attribute, and call this function once more: */
-                              elmnt.removeAttribute("html-file-name");
-                              includeExternalHTMLs();
-                          }
-                      }
-                      xhttp.open("GET", file, true);
-                      xhttp.send();
-                      /* Exit the function: */
-                      return;
-                  }
-              }
-          }
-
-          includeExternalHTMLs();
-      </script>
+      <script type="text/javascript" src="js/common.js"></script>
       <!-- coded by barber-->
   </body>
 </html>
